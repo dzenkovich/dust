@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dust Music Visualization by Denis Zenkovich</title>
+    <link rel="stylesheet" href="css/slider.css">
+    <link rel="stylesheet" href="css/dust.css">
+
+    <script src="js/slider.js"></script>
+    <script src="js/dust-speck.js"></script>
+    <script src="js/dust-breeze.js"></script>
+    <script src="js/dust-render-2d.js"></script>
+    <script src="js/dust-music.js"></script>
+    <script src="js/dust.js"></script>
+    <script>
+        window.addEventListener('load', init, false);
+
+        function init() {
+            var canvas = document.getElementById('canvas');
+            var Cloud = new Dust.Cloud({
+                canvas: canvas,
+                noSupportElement: document.getElementById('j_no_webkit_message')
+            });
+        }
+    </script>
+</head>
+<body>
+    <section>
+        <div class="bg"></div>
+        <div class="content">
+            <h1><span class="two">Dancing</span> <span class="three">Dust</span></h1>
+            <h2>by <a href="http://dzenkovich.com">Denis Zenkovich</a></h2>
+
+            <div id="j_audio_controls"></div>
+            <p>Playing: <a href="https://soundcloud.com/adventureclubdubstep/lullabies-yuna-adventure-club-remix">Lullabies - Yuna (Adventure Club Remix)</a></p>
+        </div>
+    </section>
+    <div id="j_no_webkit_message" class="none-webkit">
+        <h1>Oops! Wrong Browser.</h1>
+        <div>
+            Please use latest <a href="http://www.google.com/chrome">Chrome</a> browser.
+            Or any other modern browser based on WebKit that has Web Audio API support.
+        </div>
+    </div>
+
+    <!--
+    <canvas class="debug" id="debug-power" resize></canvas>
+    <canvas class="debug second" id="debug-inertia" resize></canvas>
+    <canvas class="debug forth" id="debug-music" resize></canvas>
+    -->
+</body>
+</html>

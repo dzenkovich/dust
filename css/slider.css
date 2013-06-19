@@ -1,0 +1,29 @@
+.slider-bar {
+    position:relative;
+    width:100px;
+    height:10px;
+    border:1px solid #444;
+    border-radius: 5px;
+    cursor:pointer;
+
+}
+
+.slider-bar .slider-slider {
+    position:absolute;
+    width:0%;
+    height:100%;
+    border-radius: 5px;
+    background-color: #bbb;
+    top:0px;
+    left:0px;
+}
+
+.slider-bar .slider-slider .slider-toggle {
+    position:absolute;
+    width: 4px;
+    height: 150%;
+    top: -40%;
+    right: -3px;
+    border:1px solid #444;
+    background-color: #eee;
+}
