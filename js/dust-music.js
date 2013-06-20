@@ -21,6 +21,8 @@ var Dust = Dust || {};
  * @param {Object} options An object with any of the following properties:
  * <dl>
  *     <dt>controlsId</dt><dd>Id of music controls container.</dd>
+ *     <dt>loadingMessage</dt><dd>Message to show while loading sound.</dd>
+ *     <dt>loadingImgUrl</dt><dd>Loading spinner image url to add to the loading message.</dd>
  *     <dt>url</dt><dd>Audio file url to load.</dd>
  *     <dt>bassCut</dt><dd>Frequency cut applied in overall magnitude calculation, specific to Bass type frequencies.</dd>
  * </dl>
@@ -54,6 +56,8 @@ Dust.Music.prototype = {
     //default options
     defaults: {
         controlsId: 'j_audio_controls',
+        loadingMessage: 'Music is loading please wait ',
+        loadingImgUrl: 'ajax-loader.gif',
         url: 'dust-music.mp3',
         bassCut: 200
     },
@@ -81,9 +85,9 @@ Dust.Music.prototype = {
         this.gainer.connect(this.context.destination);
         this.analyser.connect(this.context.destination);
 
-        this.load(this.attributes.url);
-
         this._buildControls();
+
+        this.load(this.attributes.url);
 
         if(this.attributes.debug){
             this.debug = {};
@@ -98,8 +102,20 @@ Dust.Music.prototype = {
      */
     _buildControls: function(){
         var that = this,
+            message,
+            ticker,
             playPause = document.createElement('input'),
             container = document.getElementById(this.attributes.controlsId);
+
+        message = document.createElement('div');
+        message.className = 'music-loading';
+        message.innerHTML = this.attributes.loadingMessage;
+        ticker = document.createElement('img');
+        ticker.className = 'music-loading-ticker';
+        ticker.src = this.attributes.loadingImgUrl;
+        message.appendChild(ticker);
+        container.appendChild(message);
+        message.style.display = 'none';
 
         playPause.type = 'button';
         playPause.value = 'play';
@@ -110,6 +126,7 @@ Dust.Music.prototype = {
         });
         container.appendChild(playPause);
 
+        this.controls.message = message;
         this.controls.playPause = playPause;
         this.controls.volume = new Slider({
             container: container,
@@ -149,10 +166,12 @@ Dust.Music.prototype = {
         request = new XMLHttpRequest();
         request.open('GET', url, true);
         request.responseType = 'arraybuffer';
+        this.controls.message.style.display = '';
 
         // Decode asynchronously
         request.onload = function() {
             that.context.decodeAudioData(request.response, function(buffer) {
+                that.controls.message.style.display = 'none';
 
                 that.buffer = buffer;
                 that.controls.playPause.disabled = false;
