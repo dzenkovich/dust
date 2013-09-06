@@ -3,7 +3,7 @@ dust
 
 Dust Music Visualization
 This is my personal experiment using Canvas and Web Audio API technologies.
-You can find the (working demo here)[http://lab.dzenkovich.com/Dust/]
+You can find the [working demo here](http://lab.dzenkovich.com/Dust/)
 
 ===
 
