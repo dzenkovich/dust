@@ -33,4 +33,3 @@ Renderer – this is the drawing object, it creates the Canvas element, and does
 
 Have fun!
 Would love to hear your feedback – please post comments right here at github
-//or [at my blog](http://dzenkovich.com/2013/09/dust-music-visualisation/)
