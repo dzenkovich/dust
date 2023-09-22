@@ -34,7 +34,7 @@ var Dust = Dust || {};
 Dust.Cloud = function(options){
     options = options || {};
 
-    if(typeof this.initialize == 'function') this.initialize(options);
+    if(typeof this.initialize === 'function') this.initialize(options);
 };
 /**
  * Cloud object prototype methods and properties
@@ -46,7 +46,7 @@ Dust.Cloud.prototype = {
 
     //default options
     defaults: {
-        poolSize: 1000,
+        poolSize: 5000,
         specks: 0,
         throwRate: 1,
         throwTypes: ['bitBass', 'middleLow', 'middleMed', 'middleHigh'],
@@ -74,10 +74,10 @@ Dust.Cloud.prototype = {
             i = 0,
             types,
             maxPerType = {
-                'bitBass': 350,
+                'bitBass': 250,
                 'middleLow': 270,
-                'middleMed': 230,
-                'middleHigh': 230
+                'middleMed': 270,
+                'middleHigh': 270
             };
 
         if(!this.checkSupport(options.noSupportElement)) return; //stop running if not supported
@@ -96,7 +96,7 @@ Dust.Cloud.prototype = {
         breeze = new Dust.Breeze({ type: 'up', size:  this.viewPortSize });
         this.breezes.push(breeze); //default lifting up wind
 
-        this.music = new Dust.Music();
+        this.music = new Dust.Music({debug: false});
 
         //make the breeze a music's bass wave
         this.music.set('lowBass', function(overall){
@@ -111,9 +111,37 @@ Dust.Cloud.prototype = {
             }
         }.bind(this));
 
+        var table = document.createElement('table');
+        table.style.position = 'absolute'
+        table.style.right = 0
+        table.style.top = 0
+        table.style.color = 'white'
+        table.style.zIndex = 1
+        table.style.display = 'none'
+        table.appendChild(document.createElement('tr'))
+        table.appendChild(document.createElement('tr'))
+        table.appendChild(document.createElement('tr'))
+        table.appendChild(document.createElement('tr'))
+        var debug = function(type, a, b) {
+            var i = this.options.throwTypes.indexOf(type)
+            table.children[1].children[i].childNodes[0].textContent = a.toFixed(1)
+            table.children[2].children[i].childNodes[0].textContent = b.toFixed(1)
+        }.bind(this)
+        document.body.appendChild(table)
+
         //setup emitters for all possible music frequencies
         types = this.options.throwTypes;
         for(; i < types.length; i++){
+            var td1 = document.createElement('td')
+            td1.innerHTML = types[i]
+            var td2 = document.createElement('td')
+            td2.innerHTML = "0"
+            var td3 = document.createElement('td')
+            td3.innerHTML = "0"
+            table.children[0].appendChild(td1)
+            table.children[1].appendChild(td2)
+            table.children[2].appendChild(td3)
+
             this.throw[types[i]] = {
                 color: this.options.throwColors.shift() || '#fff',
                 inertiaFactor: this.options.throwInertiaFactor.shift() || 0.5,
@@ -122,13 +150,17 @@ Dust.Cloud.prototype = {
 
             this.music.set(types[i], function(overall, type){
                 var max = maxPerType[type],
-                    min = max * 2 / 3,
                     count;
 
-                if(overall > min){
-                    count = ((overall - min) / (max - min));
-                    this.throwSpecks(type, count);
-                }
+                //debug(type, overall, min)
+                // count of thrown specs depends on sound power but can't be more than max param
+                count = Math.round((Math.random() * Math.pow(overall / 5, 2)) / max)
+                this.throwSpecks(type, count);
+
+                // if(overall > min){
+                //     count = ((overall - min) / (max - min));
+                //     this.throwSpecks(type, count);
+                // }
             }.bind(this));
         }
 

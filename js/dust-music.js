@@ -30,7 +30,7 @@ var Dust = Dust || {};
 Dust.Music = function(options){
     options = options || {};
 
-    if(typeof this.initialize == 'function') this.initialize(options);
+    if(typeof this.initialize === 'function') this.initialize(options);
 };
 /**
  * Music object prototype methods and properties
@@ -175,7 +175,6 @@ Dust.Music.prototype = {
 
                 that.buffer = buffer;
                 that.controls.playPause.disabled = false;
-                that.play();
 
             }, function(){});
         }
@@ -247,7 +246,7 @@ Dust.Music.prototype = {
             this.on[type] = [];
         }
 
-        if(typeof callback == 'function'){
+        if(typeof callback === 'function'){
             this.on[type].push(callback);
         }
     },
@@ -282,7 +281,7 @@ Dust.Music.prototype = {
         }
 
         for(i in this.relation){
-            if(i == 'bitBass' || i == 'lowBass') cut = this.attributes.bassCut;
+            if(i === 'bitBass' || i === 'lowBass') cut = this.attributes.bassCut;
             else cut = 0;
 
             sumAll = function(v){
@@ -304,7 +303,7 @@ Dust.Music.prototype = {
                     overall = sum / (this.relation[i][1] - this.relation[i][0]);
 
                     //"sharpen" bass related overalls
-                    if(i == 'bitBass' || i == 'lowBass') overall = Math.pow(overall, 1.4);
+                    if(i === 'bitBass' || i === 'lowBass') overall = Math.pow(overall, 1.4);
 
                     this.on[i].forEach(function(callback){
                         callback(overall, i);

@@ -46,10 +46,10 @@ Dust.Breeze.prototype = {
     defaults: {
         type: 'up', //direction of breeze
         power: {
-            x: 10, //Xpx per second in the main current
-            y: 30 //Xpx per second in the main current
+            x: 20, //Xpx per second in the main current
+            y: 60 //Xpx per second in the main current
         },
-        musicFactor: 4, //music power multiplier
+        musicFactor: 5, //music power multiplier
         size: 50, //height of the current in px
         waveSpreadMin: 0.2, //min % of back wave going to opposite axis
         waveSpreadMax: 0.5 //max % of back wave going to opposite axis
@@ -108,11 +108,11 @@ Dust.Breeze.prototype = {
         //get the part of the back force that will spread to opposite axis
         spread = force * (Math.random() * (this.attributes.waveSpreadMax - this.attributes.waveSpreadMin) + this.attributes.waveSpreadMin);
 
-        backForce.x = ( this.direction == 'x'? force - spread : spread );
-        backForce.y = ( this.direction == 'y'? force - spread : spread );
+        backForce.x = ( this.direction === 'x'? force - spread : spread );
+        backForce.y = ( this.direction === 'y'? force - spread : spread );
 
-        power.x = ( this.direction == 'x'? force : 0 );
-        power.y = ( this.direction == 'y'? force : 0 );
+        power.x = ( this.direction === 'x'? force : 0 );
+        power.y = ( this.direction === 'y'? force : 0 );
 
         this.attributes.power = power;
         this.backPower = backForce;

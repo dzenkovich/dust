@@ -40,7 +40,7 @@ Dust.Speck.prototype = {
     constructor: Dust.Speck,
 
     basics: {
-        minLife: 3,
+        minLife: 1,
         maxLife: 5,
         minDensity: 0.2,
         maxDensity: 1,
@@ -49,12 +49,12 @@ Dust.Speck.prototype = {
         radiusScale: 10,
         zFactor: 0.8,
         fallFactor: 700, //Xpx for most density speck in second
-        startInertiaFactor: 10,
+        startInertiaFactor: 100,
         inertiaFallback: 0.5, //% inertia decrease per second for biggest size
         flashMaxAngle: Math.PI/4, //maximum angle of the end life flash
         flashMaxRotateAngle: Math.PI/8, //maximum end life flash rotate angle
         flashTime: 0.4, //seconds of the flash-like animation at the end of life
-        maxColorMagnitude: 160, //max color magnitude speck starts flashing color
+        maxColorMagnitude: 130, //max color magnitude speck starts flashing color
         waveLag: 0.45, //x seconds for wave to come back
         wavePrecision: 1/60 //delta to check for back wave effect
     },
